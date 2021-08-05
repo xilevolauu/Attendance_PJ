@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="attendance_group" model="ir.module.category">
+            <field name="name">Attendance Project</field>
+            <field name="sequence" eval="1"/>
+        </record>
+
+        <record id="attendance_employee_project" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="attendance_group"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+        <record id="attendance_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="attendance_group"/>
+            <field name="implied_ids" eval="[(4, ref('attendance.attendance_employee_project'))]"/>
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="attendance_action" model="ir.actions.act_window">
+            <field name="name">Attendance Project</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr_attendance</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="context">{"search_default_today":1}</field>
+        </record>
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="attendance_menu" name="Attendance Project" sequence="1"/>
+        <menuitem id="attendance_options" name="Attendance" parent="attendance_menu"
+                  action="attendance_action" sequence="1"/>
+        <!--        Search view-->
+        <record id="attendance_search" model="ir.ui.view">
+            <field name="name">attendance_search</field>
+            <field name="model">hr_attendance</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="employee_code"/>
+                    <field name="employee_id"/>
+                    <field name="department_id"/>
+                    <filter string="Today" name="today" domain="[('date','=','today')]"/>
+                    <filter string="Yesterday" name="yesterday" domain="[('date','=','yesterday')]"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Employee" name="employee_id" context="{'group_by':'employee_id'}"/>
+                        <filter string="Employee Code" name="employee_code" context="{'group_by':'employee_code'}"/>
+                        <filter string="Department" name="department_id" context="{'group_by':'department_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <!--Tree View-->
+        <record id="attendance_view_tree" model="ir.ui.view">
+            <field name="name">attendance_view_tree</field>
+            <field name="model">hr_attendance</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" string="view tree">
+                    <field name="employee_id"/>
+                    <field name="employee_code"/>
+                    <field name="department_id"/>
+                    <field name="date"/>
+                    <field name="checkin" widget="float_time"/>
+                    <field name="checkout" widget="float_time"/>
+                    <field name="total_hour" widget="float_time"/>
+                    <field name="total_hour_late" widget="float_time"/>
+                    <field name="total_hour_early" widget="float_time"/>
+                </tree>
+            </field>
+        </record>
+        <!--Form View-->
+        <record id="attendance_view_form" model="ir.ui.view">
+            <field name="name">attendance_view_form</field>
+            <field name="model">hr_attendance</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <notebook>
+                            <page>
+                                <group>
+                                    <field name="employee_id"/>
+                                    <field name="employee_code"/>
+                                    <field name="department_id"/>
+                                    <field name="date"/>
+                                    <field name="checkin" widget="float_time"/>
+                                    <field name="checkout" widget="float_time"/>
+                                    <field name="total_hour" widget="float_time"/>
+                                    <field name="total_hour_late" widget="float_time"/>
+                                    <field name="total_hour_early" widget="float_time"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!--        Kanban View-->
+        <record id="attendance_view_kanban" model="ir.ui.view">
+            <field name="name">attendance_view_kanban</field>
+            <field name="model">hr_attendance</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="employee_id"/>
+                    <field name="department_id"/>
+                    <field name="date"/>
+                    <field name="checkin" widget="float_time"/>
+                    <field name="checkout" widget="float_time"/>
+                    <field name="total_hour" widget="float_time"/>
+                    <field name="total_hour_late" widget="float_time"/>
+                    <field name="total_hour_early" widget="float_time"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_details">
+                                <strong><field name="employee_id"/></strong><br/>
+                                Department: <field name="department_id"/><br/>
+                                Total Hour: <field name="total_hour" widget="float_time"/><br/>
+                                Total Hour Late: <field name="total_hour_late" widget="float_time"
+                                                        attrs="{'invisible': [('total_hour_late','=',0)]}"/><br/>
+                                Total Hour Early: <field name="total_hour_early" widget="float_time"
+                                                         attrs="{'invisible': [('total_hour_late','=',0)]}"/>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+    </data>
+</odoo>
