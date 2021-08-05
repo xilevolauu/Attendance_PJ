@@ -33,7 +33,7 @@ class Attendance (models.Model):
             if  0 < time.checkout < time.checkin :
                 raise exceptions.ValidationError("Check out > Check in")
             elif time.checkin or time.checkout < 0 :
-                raise exceptions.ValidationError("Check in , check out >0")
+                raise exceptions.ValidationError("Check in , Check out>0")
             elif time.checkin == 0 and time.checkout == 0:
                 time.total_hour_late = 0
                 time.total_hour_early = 0
